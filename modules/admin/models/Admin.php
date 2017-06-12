@@ -3,9 +3,12 @@
 namespace app\modules\admin\models;
 
 use Yii;
+use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use app\modules\admin\models\AdminRole;
+use app\modules\admin\components\MyFunction;
+
 
 class Admin extends ActiveRecord implements IdentityInterface
 {
@@ -27,7 +30,7 @@ class Admin extends ActiveRecord implements IdentityInterface
 	{
 		return [
 			'admin_name' => Yii::t('app', '用户名：'),
-			'admin_real_name'=>Yii::t('app','昵称：'),
+			'admin_real_name'=>Yii::t('app','姓名：'),
 			'admin_password' => Yii::t('app','密码：'),
 			'new_password' => Yii::t('app','新密码：'),
 			'role_id' => Yii::t('app','管理员分组：'),
@@ -130,8 +133,12 @@ class Admin extends ActiveRecord implements IdentityInterface
 		
 		$data['Admin'] = $post;
 		//$this->load($data)  $data必须封装成一个数组,而且数组必须以$data['xxx'][] 存在，其中xxx必须以model名字相同
-		if ($this->load($data) && $this->save()) {
-			return true;
+		if ($this->load($data) && $this->validate()) {
+			$this->admin_password = md5($this->admin_password);
+			if($this->save(false)){
+				return true;
+			}
+			return false;
 		}
 		return false;
 		
@@ -143,6 +150,12 @@ class Admin extends ActiveRecord implements IdentityInterface
 		$this->scenario = "editadmin";
 		
 		$data['Admin'] = $post;
+		
+		
+		if(empty($post)){
+			MyFunction::showMessage(Yii::t('app','修改失败！'),Url::to('/admin/auth/admin'));
+			Yii::$app->end();
+		}
 		
 		if($this->load($data) && $this->save()){
 			return true;

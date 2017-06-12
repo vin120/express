@@ -267,6 +267,7 @@ class AuthController extends BaseController
 			
 		
 		$post = Yii::$app->request->post();
+		
 		$role = new AdminRole();
 		$edit_id = isset($post['edit_id']) ? $post['edit_id'] : FALSE;
 		$edit_id2 = isset($post['edit_id2']) ? $post['edit_id2'] : FALSE;

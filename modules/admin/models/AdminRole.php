@@ -109,7 +109,10 @@ class AdminRole extends ActiveRecord
 	{
 		$this->scenario = "addrole";
 	
-		
+		if(empty($post['hidden'])) {
+			return false;
+			Yii::$app->end();
+		}
 		$permission = json_encode($this->getPermissionmenuInDB($post));
 		$data['AdminRole'] = $post;
 		$data['AdminRole']['permission_menu'] = $permission;
@@ -135,6 +138,13 @@ class AdminRole extends ActiveRecord
 		$permission = $role['permission_menu'];
 		$permission = json_decode($permission,true);
 		$admin_id = Yii::$app->admin->identity->admin_id;
+		
+		$new_permission = [];
+		if(empty($post['hidden'])) {
+			MyFunction::showMessage(Yii::t('app','修改失败！'),Url::to('/admin/auth/role'));
+			Yii::$app->end();
+		}
+		
 		$new_permission = $this->getPermissionmenuInDB($post);
 		$n_permission = Yii::$app->session[$admin_id.'test'];
 		unset($n_permission[0]);
@@ -149,6 +159,7 @@ class AdminRole extends ActiveRecord
 			}
 		}
 		
+
 		foreach($new_permission as $key=>$row){
 			if(is_array($row)){//判断是否是3级目录
 				foreach($row as $k=>$item){
@@ -165,13 +176,22 @@ class AdminRole extends ActiveRecord
 					if(empty($item)){
 						unset($permission[$key][$k]);
 					}
+					
+					foreach ($permission as $kk=>$rr){
+						if($key != $kk){
+							unset($permission[$kk]);
+						}
+					}			
 				}
+			
 			}else{
 				if(empty($row)){
 					unset($permission[$key]);
 				}
 			}
 		}
+		
+		
 		
 		foreach($new_permission as $key=>$row){
 			if(is_array($row)){//判断是否是3级目录
@@ -182,7 +202,7 @@ class AdminRole extends ActiveRecord
 				$permission[$key] = $row;
 			}
 		}
-		
+
 		if(empty($permission)){
 			MyFunction::showMessage(Yii::t('app','修改失败,该分组不能没有权限！'),Url::to('/admin/auth/role'));
 			Yii::$app->end();
@@ -206,13 +226,30 @@ class AdminRole extends ActiveRecord
 				$hidden = trim($post['hidden'],',');
 				$hidden_parent = $post['hidden_parent'];
 				$hidden_parent = explode(',',$hidden_parent);
+			
+				
+				$result = PermissionMenu::find()->select('parent_menu_id')->where("menu_id in ($hidden)")->groupBy('parent_menu_id')->asArray()->all();
+				
+				foreach ($result as $val){
+					if(in_array($val['parent_menu_id'], $hidden_parent)){
+						unset($hidden_parent[array_search($val['parent_menu_id'],$hidden_parent)]);
+					}
+				}
+				
+				foreach($hidden_parent as $v){
+					$reg = "/\"".$v."\"\:\[(.*?)\](,?)/";
+					$permission = preg_replace($reg,"", $permission);
+				}
+
+				
 			}
 		
 			//将最外层{...,}的最后一个逗号去除，有时有有时无
 			$permission = substr($permission , 1 , -1);
 			$permission = trim($permission,",");
 			$permission = '{'.$permission.'}';
-			 
+			
+			
 			if(empty($permission) || $permission == '{}'){
 				MyFunction::showMessage(Yii::t('app','修改失败,该分组不能没有权限！'),Url::to('/admin/auth/role'));
 				Yii::$app->end();

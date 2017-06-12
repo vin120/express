@@ -201,7 +201,7 @@ class AuthController extends BaseController
 	}
 	
 	
-	public function actionCheckusercode()
+	public function actionGetuserinfo()
 	{
 		/*
 		 * request : 

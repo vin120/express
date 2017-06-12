@@ -40,7 +40,7 @@
 					]);
 				?>
 				<?php echo $form->field($model, 'admin_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_name','name'=>'admin_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员账号')]);?>
-	 			<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员昵称')]);?>
+	 			<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员姓名')]);?>
 				<?php echo $form->field($model, 'admin_status')->checkbox([
 						'class'=>'ace ace-switch ace-switch-5',
 						'name'=>'admin_status','id'=>'id-button-borders',

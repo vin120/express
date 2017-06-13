@@ -42,12 +42,10 @@
 				?>
 				
 				<?php echo $form->field($model, 'admin_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_name','name'=>'admin_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员账号')]);?>
-	 			
-	 			<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员姓名')]);?>
-				
 				<?php echo $form->field($model, 'admin_password')->passwordInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_password','name'=>'admin_password','maxlength'=>'80','placeholder'=>Yii::t('app','管理员密码')]);?>
 				<?php echo $form->field($model, 're_password')->passwordInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'re_password','name'=>'re_password','maxlength'=>'80','placeholder'=>Yii::t('app','确认密码')]);?>
-                    
+               	<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员姓名')]);?>     
+				<?php echo $form->field($model, 'admin_phone')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_phone','name'=>'admin_phone','maxlength'=>'80','placeholder'=>Yii::t('app','管理员手机号码')]);?>
 				<?php echo $form->field($model, 'admin_status')->checkbox([
 						'class'=>'ace ace-switch ace-switch-5',
 						'name'=>'admin_status','id'=>'id-button-borders',
@@ -55,7 +53,7 @@
 					]);
 				?>              
 				<?php echo $form->field($model,'role_id')->dropDownList($role,['class'=>'col-xs-10 col-sm-8 col-md-8" id="form-field-select-1','name'=>'role_id'])?>
-				 
+				<?php echo $form->field($model,'admin_type')->dropDownList($type,['class'=>'col-xs-10 col-sm-8 col-md-8" id="form-field-select-2','name'=>'admin_type'])?>
          		<?php echo Html::submitButton(Yii::t('app','提交'),['class'=>'btn btn-primary','id'=>'submit','style'=>'margin-left: 45%'])?>
                 
                 <?php ActiveForm::end();?>

@@ -34,17 +34,17 @@ class AuthController extends BaseController
 		
 		//主要用于判断添加，编辑和删除的权限
 		$can = [];
-		if(in_array('115', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['add'], $this->auth) || $this->auth[0] == '0'){
 			$can['add'] = true;
 		}  else {
 			$can['add'] = false;
 		}
-		if(in_array('116', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['edit'], $this->auth) || $this->auth[0] == '0'){
 			$can['edit'] = true;
 		}  else {
 			$can['edit'] = false;
 		}
-		if(in_array('117', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['delete'], $this->auth) || $this->auth[0] == '0'){
 			$can['delete'] = true;
 		}  else {
 			$can['delete'] = false;
@@ -97,7 +97,15 @@ class AuthController extends BaseController
 		$role = AdminRole::find()->where('role_id > 1 and role_status = 1')->orderBy('role_id')->all();
 		$model->admin_status = 1;
 		
-		return $this->render('adminadd',['model'=>$model,'role'=>$list]);
+		
+		$type = [
+			0 =>	Yii::t('app','充值管理员'),
+			1 =>	Yii::t('app','派件理员'),
+			2 =>	Yii::t('app','珠海扫描管理员'),
+			3 =>	Yii::t('app','澳门扫描管理员'),
+		];
+		
+		return $this->render('adminadd',['model'=>$model,'role'=>$list,'type'=>$type]);
 		
 	}
 	
@@ -121,6 +129,13 @@ class AuthController extends BaseController
 		$list = $role->getOptions();
 		unset($list[0]);
 		
+		$type = [
+			0 =>	Yii::t('app','充值管理员'),
+			1 =>	Yii::t('app','派件理员'),
+			2 =>	Yii::t('app','珠海扫描管理员'),
+			3 =>	Yii::t('app','澳门扫描管理员'),
+		];
+		
 		
 		$post = Yii::$app->request->post();
 		$admin = new Admin();
@@ -138,8 +153,7 @@ class AuthController extends BaseController
 			}
 		}
 		
-		
-		return $this->render('adminedit',['model'=>$admin,'role'=>$list,'id'=>$id]);
+		return $this->render('adminedit',['model'=>$admin,'role'=>$list,'id'=>$id,'type'=>$type]);
 	}
 	
 	
@@ -182,17 +196,17 @@ class AuthController extends BaseController
 		
 		//主要用于判断添加，编辑和删除的权限
 		$can = [];
-		if(in_array('119', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['add'], $this->auth) || $this->auth[0] == '0'){
 			$can['add'] = true;
 		}  else {
 			$can['add'] = false;
 		}
-		if(in_array('120', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['edit'], $this->auth) || $this->auth[0] == '0'){
 			$can['edit'] = true;
 		}  else {
 			$can['edit'] = false;
 		}
-		if(in_array('121', $this->auth) || $this->auth[0] == '0'){
+		if(in_array(Yii::$app->params['a_role']['delete'], $this->auth) || $this->auth[0] == '0'){
 			$can['delete'] = true;
 		}  else {
 			$can['delete'] = false;
@@ -319,7 +333,7 @@ class AuthController extends BaseController
 		//获取菜单
 		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('admin');
 		//检查权限
-		$this->CheckAuth();
+// 		$this->CheckAuth();
 		
 		
 		
@@ -351,6 +365,7 @@ class AuthController extends BaseController
 		$admin = Admin::findOne($id);
 		
 		$admin->admin_password = md5('123456');
+		$admin->sign = md5(md5($admin->admin_name).md5($admin->admin_password).md5($admin->admin_phone));
 		if($admin->save()){
 			MyFunction::showMessage(Yii::t('app','重设密码成功,密码为123456'),Url::to('/admin/auth/admin'));
 		}else {

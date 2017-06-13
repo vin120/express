@@ -17,7 +17,7 @@ class IndexController extends BaseController
 		//获取菜单
 		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('index');
 		//检查权限
-		$this->CheckAuth();
+// 		$this->CheckAuth();
 		
 
 		$admin = Yii::$app->admin->identity;

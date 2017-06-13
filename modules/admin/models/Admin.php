@@ -30,12 +30,14 @@ class Admin extends ActiveRecord implements IdentityInterface
 	{
 		return [
 			'admin_name' => Yii::t('app', '用户名：'),
-			'admin_real_name'=>Yii::t('app','姓名：'),
+			'admin_real_name'=>Yii::t('app','真实姓名：'),
 			'admin_password' => Yii::t('app','密码：'),
 			'new_password' => Yii::t('app','新密码：'),
 			'role_id' => Yii::t('app','管理员分组：'),
 			're_password' => Yii::t('app', '确认密码：'),
 			'rememberMe'=> Yii::t('app', '记住密码：'),
+			'admin_phone'=>Yii::t('app', '手机号码：'),
+			'admin_type'=>Yii::t('app', '管理员类型：'),
 		];
 	}
 	
@@ -51,12 +53,15 @@ class Admin extends ActiveRecord implements IdentityInterface
 			[['re_password'],'required','message'=>Yii::t('app', '确认密码不能为空'),'on'=>['addadmin','changepassword','addadmin']],
 			[['new_password'],'compare','compareAttribute'=>'admin_password','operator'=>'!==','message'=>Yii::t('app','原密码与新密码不能相同') ,'on'=>['changepassword']],
 			[['rememberMe'],'boolean','on'=>['login']],
+			[['admin_real_name'],'required','message'=>Yii::t('app', '真实姓名不能为空'),'on'=>['addadmin','editadmin']],
+			[['admin_phone'],'required','message'=>Yii::t('app', '手机号码不能为空'),'on'=>['addadmin']],
+			[['admin_phone'],'unique','message'=>Yii::t('app', '手机号码已存在'),'on'=>['addadmin']],
 			[['re_password'],'compare','compareAttribute'=>'new_password','message'=>Yii::t('app', '两次密码不一致'),'on'=>['changepassword']],
 			[['re_password'],'compare','compareAttribute'=>'admin_password','message'=>Yii::t('app','两次密码不一致'),'on'=>['addadmin']],
 			[['admin_password'],'validatePassword','on'=>['login','changepassword']],
 			[['new_password'],'string','length'=>[6,12],'tooLong'=>Yii::t('app', '密碼最多爲12位'),'tooShort'=>Yii::t('app', '密碼最少爲6位'),'on'=>['changepassword']],
 			[['admin_name','admin_password','re_password'],'string','length'=>[6,12],'tooLong'=>Yii::t('app', '最多爲12位'),'tooShort'=>Yii::t('app', '最少爲6位'),'on'=>['addadmin']],
-			[['admin_real_name','login_ip','login_time','role_id','admin_status'],'safe'],
+			[['login_ip','login_time','role_id','admin_status','admin_type','sign'],'safe'],
 		];
 	}
 	
@@ -135,6 +140,8 @@ class Admin extends ActiveRecord implements IdentityInterface
 		//$this->load($data)  $data必须封装成一个数组,而且数组必须以$data['xxx'][] 存在，其中xxx必须以model名字相同
 		if ($this->load($data) && $this->validate()) {
 			$this->admin_password = md5($this->admin_password);
+			$this->sign = md5(md5($this->admin_name).md5($this->admin_password).md5($this->admin_phone));
+			//save(false) 代表存入的数据是md5之前的数据
 			if($this->save(false)){
 				return true;
 			}
@@ -176,7 +183,7 @@ class Admin extends ActiveRecord implements IdentityInterface
 		$this->scenario = "changepassword";
 
 		if($this->load($data) && $this->validate()) {
-			return (bool) $this->updateAll(['admin_password' => md5($this->new_password)],'admin_name = :admin_name',[':admin_name'=>$this->admin_name]);
+			return (bool) $this->updateAll(['admin_password' => md5($this->new_password),'sign'=>md5(md5($this->admin_name).md5($this->new_password).md5($this->admin_phone))],'admin_name = :admin_name',[':admin_name'=>$this->admin_name]);
 		}
 		
 		return false;

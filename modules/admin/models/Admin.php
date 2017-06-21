@@ -140,7 +140,7 @@ class Admin extends ActiveRecord implements IdentityInterface
 		//$this->load($data)  $data必须封装成一个数组,而且数组必须以$data['xxx'][] 存在，其中xxx必须以model名字相同
 		if ($this->load($data) && $this->validate()) {
 			$this->admin_password = md5($this->admin_password);
-			$this->sign = md5(md5($this->admin_name).md5($this->admin_password).md5($this->admin_phone));
+			$this->sign = md5(md5($this->admin_phone).md5($this->admin_password));
 			//save(false) 代表存入的数据是md5之前的数据
 			if($this->save(false)){
 				return true;
@@ -183,7 +183,7 @@ class Admin extends ActiveRecord implements IdentityInterface
 		$this->scenario = "changepassword";
 
 		if($this->load($data) && $this->validate()) {
-			return (bool) $this->updateAll(['admin_password' => md5($this->new_password),'sign'=>md5(md5($this->admin_name).md5($this->new_password).md5($this->admin_phone))],'admin_name = :admin_name',[':admin_name'=>$this->admin_name]);
+			return (bool) $this->updateAll(['admin_password' => md5($this->new_password),'sign'=>md5(md5($this->admin_phone).md5($this->new_password))],'admin_name = :admin_name',[':admin_name'=>$this->admin_name]);
 		}
 		
 		return false;

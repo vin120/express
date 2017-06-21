@@ -45,7 +45,7 @@ class AuthController extends BaseController
 			$can['edit'] = false;
 		}
 		if(in_array(Yii::$app->params['a_role']['delete'], $this->auth) || $this->auth[0] == '0'){
-			$can['delete'] = true;
+			$can['delete'] = false;
 		}  else {
 			$can['delete'] = false;
 		}

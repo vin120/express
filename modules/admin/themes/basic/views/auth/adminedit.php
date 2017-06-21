@@ -10,7 +10,7 @@
     $this->title = Yii::t("app", "编辑管理员");
 ?>
 
-<div class="page-content">
+	<div class="page-content">
         <div class="page-header">
             <h1>
                 <?php echo yii::t('app', '权限管理')?>
@@ -40,7 +40,7 @@
 					]);
 				?>
 				<?php echo $form->field($model, 'admin_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_name','readonly'=>'readonly','name'=>'admin_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员账号')]);?>
-	 			<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','maxlength'=>'80','placeholder'=>Yii::t('app','管理员姓名')]);?>
+	 			<?php echo $form->field($model, 'admin_real_name')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_real_name','name'=>'admin_real_name','readonly'=>'readonly','maxlength'=>'80','placeholder'=>Yii::t('app','管理员姓名')]);?>
 				<?php echo $form->field($model, 'admin_phone')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'admin_phone','name'=>'admin_phone','readonly'=>'readonly','maxlength'=>'80','placeholder'=>Yii::t('app','管理员手机号码')]);?>
 				<?php echo $form->field($model, 'admin_status')->checkbox([
 						'class'=>'ace ace-switch ace-switch-5',
@@ -48,8 +48,8 @@
 						'template'=>'<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right">'. Yii::t("app", "状态").'：</label><label style="margin-left: 10px;">{input}<span class="lbl"></span></label>',
 					]);
 				?>
-				<?php echo $form->field($model,'role_id')->dropDownList($role,['class'=>'col-xs-10 col-sm-8 col-md-8" id="form-field-select-1','name'=>'role_id'])?>
-				<?php echo $form->field($model,'admin_type')->dropDownList($type,['class'=>'col-xs-10 col-sm-8 col-md-8" id="form-field-select-2','name'=>'admin_type'])?>
+				<?php echo $form->field($model,'role_id')->dropDownList($role,['class'=>'col-xs-10 col-sm-8 col-md-8" ,id="form-field-select-1','name'=>'role_id'])?>
+				<?php echo $form->field($model,'admin_type')->dropDownList($type,['class'=>'col-xs-10 col-sm-8 col-md-8", id="form-field-select-2','name'=>'admin_type'])?>
 				<input type="hidden" value="<?php echo $id?>" name="edit_id2" />
          		<?php echo Html::submitButton(Yii::t('app','提交'),['class'=>'btn btn-primary','id'=>'submit','style'=>'margin-left: 45%'])?>
                 <a href="<?php echo Url::to("/admin/auth/resetpassword?id={$id}");?>" class="reset btn btn-warning"><?php echo yii::t('app', '重设密码')?></a>
@@ -57,4 +57,3 @@
             </div><!-- /.col-xs-12 -->
         </div><!-- /.row -->
     </div><!-- /.page-content -->
-</div><!-- /.main-content -->

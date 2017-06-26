@@ -157,7 +157,7 @@ class UserController extends BaseController
 		
 		if(!$edit_id) {
 			if($user->recharge($post)){
-				MyFunction::showMessage(Yii::t('app','修改成功'),Url::to('/admin/user/recharge'));
+				MyFunction::showMessage(Yii::t('app','充值成功'),Url::to('/admin/user/recharge'));
 			}
 		}
 		

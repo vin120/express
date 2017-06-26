@@ -9,6 +9,10 @@ use app\modules\api\models\User;
 
 class AuthController extends BaseController
 {
+	/**
+	 * 掃描槍(珠海掃件管理員登錄)
+	 * @return array|number[]|string[]|number[]|string[]
+	 */
 	public function actionZhuhailogin()
 	{
 		
@@ -121,6 +125,11 @@ class AuthController extends BaseController
 	}
 	
 	
+	
+	/**
+	 * 掃描槍(澳門掃件管理員登錄)
+	 * @return array|number[]|string[]|number[]|string[]
+	 */
 	public function actionMacaulogin()
 	{
 		
@@ -222,6 +231,10 @@ class AuthController extends BaseController
 	}
 	
 	
+	/**
+	 * 掃描槍(獲取用戶信息)
+	 * @return array|number[]|string[]|number[]|string[]
+	 */
 	public function actionGetuserinfo()
 	{
 		/*
@@ -274,9 +287,11 @@ class AuthController extends BaseController
 			
 			
 			$data['phone'] = $user->user_phone;
-			$data['real_name'] = $user->user_real_name;
+			$data['real_name'] = $user->user_name;
 			$data['address'] = $user->user_address;
-			
+			if(is_null($data['address'])){
+				$data['address']="";
+			}
 			
 			$response = ['code' => 0, 'msg'=>'success','data'=>$data];
 			

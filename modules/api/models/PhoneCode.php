@@ -71,28 +71,5 @@ class PhoneCode extends ActiveRecord
 	
 	
 	
-	
-	//TODO
-	public function validateCode()
-	{
-		if(!$this->hasErrors()){
-			$user_phone = Yii::$app->session->get('regist_phone');
-	
-			$data = self::find()->where('c_phone = :c_phone',[':c_phone' =>$user_phone])->one();
-			if(is_null($data)){
-				$this->addError("c_code","驗證碼錯誤");
-			}
-				
-			if($data->c_code != $this->c_code){
-				$this->addError("c_code","驗證碼錯誤");
-			}
-				
-			if($data->c_time < time()){
-				$this->addError("c_code","驗證碼已過期,請重新獲取");
-			}
-		}
-	}
-	
-	
 
 }

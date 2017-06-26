@@ -9,7 +9,10 @@ use app\modules\api\models\Admin;
 
 class GoodsController extends BaseController
 {
-	
+	/**
+	 * 掃描槍接口(珠海上傳)
+	 * @return number[]|string[]
+	 */
 	public function actionZhuhaiupload()
 	{
 		$data = [];
@@ -67,7 +70,7 @@ class GoodsController extends BaseController
 			}
 			
 			$goods->bar_code = $bar_code;
-			$goods->user_phone = $admin->admin_phone;
+			$goods->user_phone = $user_phone;
 			$goods->zh_admin_name = $admin->admin_name;
 			$goods->length = $length;
 			$goods->width = $width;
@@ -86,7 +89,10 @@ class GoodsController extends BaseController
 	}
 	
 	
-	
+	/**
+	 * 掃描槍(澳門上傳)
+	 * @return number[]|string[]
+	 */
 	public function actionMacauupload()
 	{
 		if(Yii::$app->request->isPost){

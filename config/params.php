@@ -10,6 +10,7 @@ return [
 		'user'=>10,
 		'recharge'=>10,
 		'store'=>10,
+		'rechargelog'=>10,
 	],	
 	
 	//管理員的權限id

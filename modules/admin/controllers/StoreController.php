@@ -97,15 +97,10 @@ class StoreController extends BaseController
 			}
 			
 			
-			if($_FILES['store_pic']['error']!=4){
-				$result=MyFunction::upload_file('store_pic',"./".Yii::$app->params['img_url_prefix'].date('Ymd',time()), 'image', $allow_size);
-				$store_pic=date('Ymd',time()).'/'.$result['filename'];
-			}
 			
 			
 			$post['store_logo'] = isset($store_logo) ? $store_logo : "";
 			$post['store_map'] = isset($store_map) ? $store_map : "";
-			$post['store_pic'] = isset($store_pic) ? $store_pic : "";
 			
 			if($model->addStore($post)){
 				MyFunction::showMessage(Yii::t('app','添加成功'),Url::to('/admin/store/store'));
@@ -155,14 +150,9 @@ class StoreController extends BaseController
 			}
 			
 			
-			if($_FILES['store_pic']['error']!=4){
-				$result=MyFunction::upload_file('store_pic',"./".Yii::$app->params['img_url_prefix'].date('Ymd',time()), 'image', $allow_size);
-				$store_pic=date('Ymd',time()).'/'.$result['filename'];
-			}
 			
 			$post['store_logo'] = isset($store_logo) ? $store_logo : "";
 			$post['store_map'] = isset($store_map) ? $store_map : "";
-			$post['store_pic'] = isset($store_pic) ? $store_pic : "";
 			
 			if($store->editStore($post)){
 				MyFunction::showMessage(Yii::t('app','修改成功'),Url::to('/admin/store/store'));

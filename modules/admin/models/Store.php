@@ -28,7 +28,6 @@ class Store extends ActiveRecord
 			'store_address' => Yii::t('app', '地址：'),
 			'store_logo' => Yii::t('app', 'logo：'),
 			'store_map' => Yii::t('app', '地图：'),
-			'store_pic' => Yii::t('app', '布局图：'),
 			'store_status' => Yii::t('app', '状态：'),
 			
 		];
@@ -45,7 +44,6 @@ class Store extends ActiveRecord
 			[['store_address'],'required','message'=>Yii::t('app', '地址不能为空'),'on'=>['storeadd','storeedit']],
 			[['store_logo'],'required','message'=>Yii::t('app', 'logo不能为空'),'on'=>['storeadd','storeedit']],
 			[['store_map'],'required','message'=>Yii::t('app', '地图不能为空'),'on'=>['storeadd','storeedit']],
-			[['store_pic'],'required','message'=>Yii::t('app', '布局图不能为空'),'on'=>['storeadd','storeedit']],
 			[['store_status'],'safe'],
 		];
 	}
@@ -84,9 +82,6 @@ class Store extends ActiveRecord
 			$post['store_map'] = $this->store_map;
 		}
 		
-		if($post['store_pic'] == ""){
-			$post['store_pic'] = $this->store_pic;
-		}
 		
 		$data['Store'] = $post;
 		

@@ -61,13 +61,7 @@ $this->title = Yii::t("app", "门店信息");
 					</div>
 				</div>
 			
-				<div class="form-group">
-					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right"><?php echo Yii::t('app', '布局图')?>：</label>
-					<img src="<?php echo Yii::$app->params['img_url'].'/'.$model['store_pic'];?>" width="180" height="100"/>
-					<div class="col-xs-12 col-sm-4">
-						<input type="file" id="store_pic" name="store_pic" />
-					</div>
-				</div>
+			
 					
 				
 				<?php echo $form->field($model, 'store_status')->checkbox([
@@ -114,17 +108,6 @@ jQuery(function($) {
 		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 	})
 
-	$('#store_pic').ace_file_input({
-		style:'well',
-		btn_choose:'选择布局图',
-		btn_change:null,
-		no_icon:'ace-icon fa fa-picture-o',
-		thumbnail:'large',
-		droppable:true,
-		
-		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-	})
 
 	
 });

@@ -8,6 +8,7 @@ use app\modules\api\models\Ad;
 use app\modules\api\components\Components;
 use app\modules\api\models\User;
 use app\modules\api\models\PhoneCode;
+use app\modules\api\models\News;
 
 
 
@@ -35,7 +36,7 @@ class AppController extends BaseController
 	
 	
 	/**
-	 * 註冊
+	 * 用戶註冊
 	 * @return number[]|string[]
 	 */
 	public function actionRegister()
@@ -273,6 +274,39 @@ class AppController extends BaseController
 		return $response;
 		
 	}
+	
+	/**
+	 * 獲取公告信息
+	 * @return number[]|string[]|array[]|\yii\db\ActiveRecord[][]
+	 */
+	public function actionNews()
+	{
+		$page = Yii::$app->request->post('page');
+		$size = Yii::$app->request->post('size');
+		
+		if(empty($page)){
+			$page = 0;
+		}
+		
+		if(empty($size)){
+			$size = 3;
+		}
+		
+		
+		$news = News::find()->where('news_status=1')->orderBy('news_id desc')->offset($page)->limit($size)->all();
+		
+		foreach ($news as $key => $row){
+			unset($news[$key]['news_status']);
+		}
+		
+		$data = $news;
+	
+		
+		$response = ['code'=> 0, 'msg'=>'success','data'=>$data];
+		return $response;
+		
+	}
+	
 	
 	
 	

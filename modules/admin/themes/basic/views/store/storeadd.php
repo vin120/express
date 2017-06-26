@@ -46,25 +46,20 @@
 				<?php echo $form->field($model, 'store_work_time')->textInput(['class'=>'col-xs-10 col-sm-8 col-md-8','id'=>'store_work_time','name'=>'store_work_time','maxlength'=>'80','placeholder'=>Yii::t('app','营业时间')]);?>
 				
 				<div class="form-group">
-					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right">logo图：</label>
+					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right"><?php echo Yii::t('app', 'logo图')?>：</label>
 					<div class="col-xs-12 col-sm-4">
 						<input type="file" id="store_logo" name="store_logo" />
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right">logo图：</label>
+					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right"><?php echo Yii::t('app', '地图')?>：</label>
 					<div class="col-xs-12 col-sm-4">
 						<input type="file" id="store_map" name="store_map" />
 					</div>
 				</div>
 			
-				<div class="form-group">
-					<label class="col-xs-2 col-sm-2 col-md-2 control-label no-padding-right">logo图：</label>
-					<div class="col-xs-12 col-sm-4">
-						<input type="file" id="store_pic" name="store_pic" />
-					</div>
-				</div>
+			
 					
 				
 				<?php echo $form->field($model, 'store_status')->checkbox([
@@ -102,18 +97,6 @@ jQuery(function($) {
 	$('#store_map').ace_file_input({
 		style:'well',
 		btn_choose:'选择地图',
-		btn_change:null,
-		no_icon:'ace-icon fa fa-picture-o',
-		thumbnail:'large',
-		droppable:true,
-		
-		allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-		allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-	})
-
-	$('#store_pic').ace_file_input({
-		style:'well',
-		btn_choose:'选择布局图',
 		btn_change:null,
 		no_icon:'ace-icon fa fa-picture-o',
 		thumbnail:'large',

@@ -11,6 +11,8 @@ use yii\helpers\Url;
 use app\modules\admin\models\Store;
 use yii\data\Pagination; 
 use app\modules\admin\models\ExpressCharge;
+use app\modules\admin\models\ZhStore;
+use app\modules\admin\models\News;
 
 
 class StoreController extends BaseController 
@@ -19,7 +21,7 @@ class StoreController extends BaseController
 	public $layout = "basicLayout";
 	
 	/**
-	 * 门店列表
+	 * 澳门取货地址
 	 * @return string
 	 */
 	public function actionStore()
@@ -57,14 +59,13 @@ class StoreController extends BaseController
 		$datas =$model->offset($pager->offset)->limit($pager->limit)->all();
 		
 		
-		$store = Store::find()->all();
 		
 		return $this->render('store',['store'=>$datas,'can'=>$can,'pager'=>$pager]);
 	}
 	
 	
 	/**
-	 *  添加门店
+	 *  添加澳门取货地址
 	 * @return string
 	 */
 	public function actionStoreadd()
@@ -113,7 +114,7 @@ class StoreController extends BaseController
 	
 	
 	/**
-	 * 编辑门店
+	 * 编辑澳门取货地址
 	 * @return string
 	 */
 	public function actionStoreedit()
@@ -163,6 +164,269 @@ class StoreController extends BaseController
 		
 		return $this->render('storeedit',['model'=>$store,'id'=>$id]);
 	}
+	
+	
+	/**
+	 * 珠海收货地址
+	 * @return string
+	 */
+	public function actionZhstore()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('zhstore');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		
+		//主要用于判断添加，编辑和删除的权限
+		$can = [];
+		if(in_array(Yii::$app->params['s_zhstore']['add'], $this->auth) || $this->auth[0] == '0'){
+			$can['add'] = true;
+		}  else {
+			$can['add'] = false;
+		}
+		if(in_array(Yii::$app->params['s_zhstore']['edit'], $this->auth) || $this->auth[0] == '0'){
+			$can['edit'] = true;
+		}  else {
+			$can['edit'] = false;
+		}
+		if(in_array(Yii::$app->params['s_zhstore']['delete'], $this->auth) || $this->auth[0] == '0'){
+			$can['delete'] = false;
+		}  else {
+			$can['delete'] = false;
+		}
+		
+		
+		
+		$model = ZhStore::find()->orderBy('zhstore_id desc');
+		$count = $model->count();
+		$pageSize = Yii::$app->params['pageSize']['zhstore'];
+		$pager = new Pagination(['totalCount'=>$count,'pageSize'=>$pageSize]);
+		$datas =$model->offset($pager->offset)->limit($pager->limit)->all();
+		
+		
+	
+		return $this->render('zhstore',['zhstore'=>$datas,'can'=>$can,'pager'=>$pager]);
+	}
+	
+	
+	/**
+	 * 添加珠海收货地址
+	 * @return string
+	 */
+	public function actionZhstoreadd()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('zhstore');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		$model = new ZhStore();
+		$model->zhstore_status=1;
+		
+		
+		if(Yii::$app->request->isPost){
+			$post = Yii::$app->request->post();
+			
+			
+			$allow_size = 3;
+			
+			if($_FILES['zhstore_logo']['error']!=4){
+				$result=MyFunction::upload_file('zhstore_logo',"./".Yii::$app->params['img_url_prefix'].date('Ymd',time()), 'image', $allow_size);
+				$store_logo=date('Ymd',time()).'/'.$result['filename'];
+			}
+			
+	
+			
+			$post['zhstore_logo'] = isset($store_logo) ? $store_logo : "";
+			
+			if($model->addZhStore($post)){
+				MyFunction::showMessage(Yii::t('app','添加成功'),Url::to('/admin/store/zhstore'));
+			}
+		}
+		
+		
+		return $this->render('zhstoreadd',['model'=>$model]);
+	}
+	
+	
+	
+	/**
+	 * 编辑珠海收货地址
+	 * @return string
+	 */
+	public function actionZhstoreedit()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('zhstore');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		
+		$post = Yii::$app->request->post();
+		$zhstore= new ZhStore();
+		$edit_id = isset($post['edit_id']) ? $post['edit_id'] : FALSE;
+		$edit_id2 = isset($post['edit_id2']) ? $post['edit_id2'] : FALSE;
+		$id = $edit_id ? $edit_id : $edit_id2;
+		
+		if($id) {
+			$zhstore= $zhstore::find()->where('zhstore_id = :zhstore_id',[':zhstore_id'=>$id])->one();
+		}
+		
+		if(!$edit_id) {
+			
+			$allow_size = 3;
+			
+			if($_FILES['zhstore_logo']['error']!=4){
+				$result=MyFunction::upload_file('zhstore_logo',"./".Yii::$app->params['img_url_prefix'].date('Ymd',time()), 'image', $allow_size);
+				$store_logo=date('Ymd',time()).'/'.$result['filename'];
+			}
+			
+		
+			$post['zhstore_logo'] = isset($store_logo) ? $store_logo : "";
+			
+			if($zhstore->editZhStore($post)){
+				MyFunction::showMessage(Yii::t('app','修改成功'),Url::to('/admin/store/zhstore'));
+			}
+		}
+		
+		
+		
+		
+		return $this->render('zhstoreedit',['id'=>$id,'model'=>$zhstore]);
+	}
+	
+	
+	/**
+	 * 公告讯息
+	 * @return string
+	 */
+	public function actionNews()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('news');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		//主要用于判断添加，编辑和删除的权限
+		$can = [];
+		if(in_array(Yii::$app->params['s_news']['add'], $this->auth) || $this->auth[0] == '0'){
+			$can['add'] = true;
+		}  else {
+			$can['add'] = false;
+		}
+		if(in_array(Yii::$app->params['s_news']['edit'], $this->auth) || $this->auth[0] == '0'){
+			$can['edit'] = true;
+		}  else {
+			$can['edit'] = false;
+		}
+		if(in_array(Yii::$app->params['s_news']['delete'], $this->auth) || $this->auth[0] == '0'){
+			$can['delete'] = false;
+		}  else {
+			$can['delete'] = false;
+		}
+				
+		
+		$model = News::find()->orderBy('news_id desc');
+		$count = $model->count();
+		$pageSize = Yii::$app->params['pageSize']['news'];
+		$pager = new Pagination(['totalCount'=>$count,'pageSize'=>$pageSize]);
+		$datas =$model->offset($pager->offset)->limit($pager->limit)->all();
+		
+		
+		
+		return $this->render('news',['news'=>$datas,'can'=>$can,'pager'=>$pager]);
+	}
+	
+	
+	
+	
+	/**
+	 * 添加公告循序
+	 * @return string
+	 */
+	public function actionNewsadd()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('news');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		
+		$model = new News();
+		$model->news_status=1;
+		
+		
+		if(Yii::$app->request->isPost){
+			$post = Yii::$app->request->post();
+			
+			if($model->addNews($post)){
+				MyFunction::showMessage(Yii::t('app','添加成功'),Url::to('/admin/store/news'));
+			}
+		}
+		
+		
+		return $this->render('newsadd',['model'=>$model]);
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 *	编辑公告讯息
+	 * @return string
+	 */
+	public function actionNewsedit()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('news');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		$post = Yii::$app->request->post();
+		$news= new News();
+		$edit_id = isset($post['edit_id']) ? $post['edit_id'] : FALSE;
+		$edit_id2 = isset($post['edit_id2']) ? $post['edit_id2'] : FALSE;
+		$id = $edit_id ? $edit_id : $edit_id2;
+		
+		if($id) {
+			$news= $news::find()->where('news_id = :news_id',[':news_id'=>$id])->one();
+		}
+		
+		if(!$edit_id) {
+			
+			if($news->editNews($post)){
+				MyFunction::showMessage(Yii::t('app','修改成功'),Url::to('/admin/store/news'));
+			}
+		}
+	
+		
+		return $this->render('newsedit',['id'=>$id,'model'=>$news]);
+	}
+	
+	
+	
+	
+	public function actionNewsdelete()
+	{
+		//获取菜单
+		Yii::$app->view->params['menu'] = PermissionMenu::getMenu('news');
+		//检查权限
+		$this->CheckAuth();
+		
+		
+		return $this->render('newsdelete');
+	}
+	
+	
+	
 	
 	
 	/**

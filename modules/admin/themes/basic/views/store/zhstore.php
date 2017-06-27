@@ -1,14 +1,14 @@
 <?php
-	use yii\helpers\Url;
-	use yii\helpers\Html;
-	use yii\bootstrap\ActiveForm;
-    use app\modules\admin\themes\basic\assets\ThemeAsset;
-    use app\modules\admin\themes\basic\assets\ThemeAssetExtra;
-    ThemeAsset::register($this);
-    ThemeAssetExtra::register($this);
-    $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';   
-    $this->title = Yii::t("app", "货物管理");
-    
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+use app\modules\admin\themes\basic\assets\ThemeAsset;
+use app\modules\admin\themes\basic\assets\ThemeAssetExtra;
+ThemeAsset::register($this);
+ThemeAssetExtra::register($this);
+$baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
+$this->title = Yii::t("app", "货物管理");
+
 ?>
 
 
@@ -18,7 +18,7 @@
 			<?php echo yii::t('app', '货物管理')?>
 			<small>
 				<i class="ace-icon fa fa-angle-double-right"></i>
-				<?php echo yii::t('app', '澳门取货地址')?>
+				<?php echo yii::t('app', '珠海收货地址')?>
 			</small>
 		</h1>
 	</div><!-- /.page-header -->
@@ -41,31 +41,29 @@
 									<th style="width: 5%"><?php echo yii::t('app', '序号')?></th>
 									<th><?php echo yii::t('app', '店名')?></th>
 									<th><?php echo yii::t('app', '电话')?></th>
-									<th><?php echo yii::t('app', '营业时间')?></th>
 									<th style="width: 5%"><?php echo yii::t('app', '状态')?></th>
 									<th style="width: 7%"><?php echo yii::t('app', '操作')?></th>
 								</tr>
 							</thead>
                             <tbody>
-                                <?php foreach ($store as $key=>$row) : ?>
+                                <?php foreach ($zhstore as $key=>$row) : ?>
                                 <tr>
                                     <td><?php echo ++$key;?></td>
-                                    <td><?php echo $row['store_name'];?></td>
-                                    <td><?php echo $row['store_phone']?></td>
-                                    <td><?php echo $row['store_work_time'];?></td>
-                                    <td><?php echo $row['store_status']? yii::t('app', '启用'): yii::t('app', '禁用');?></td>
+                                    <td><?php echo $row['zhstore_name'];?></td>
+                                    <td><?php echo $row['zhstore_phone']?></td>
+                                    <td><?php echo $row['zhstore_status']? yii::t('app', '启用'): yii::t('app', '禁用');?></td>
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
                                         
                                             <?php if($can['edit']):?>
-                                            <a href="#" id="<?php echo $row['store_id'];?>" class="edit btn btn-xs btn-info" title="<?php echo yii::t('app', '编辑');?>">
+                                            <a href="#" id="<?php echo $row['zhstore_id'];?>" class="edit btn btn-xs btn-info" title="<?php echo yii::t('app', '编辑');?>">
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                                             </a>
                                             <?php endif; ?>
                                             
                                             
                                             <?php if($can['delete']):?>
-                                            <a href="#" class="btn btn-xs btn-warning delete" id="<?php echo $row['store_id'];?>" title="<?php echo yii::t('app', '删除');?>">
+                                            <a href="#" class="btn btn-xs btn-warning delete" id="<?php echo $row['zhstore_id'];?>" title="<?php echo yii::t('app', '删除');?>">
                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                             </a>
                                             <?php endif; ?>
@@ -80,7 +78,7 @@
                                                 
                                                     <?php if($can['edit']):?>
                                                     <li>
-                                                        <a href="#" id="<?php echo $row['store_id'];?>" class="edit tooltip-info" data-rel="tooltip" title="<?php echo yii::t('app', '编辑');?>">
+                                                        <a href="#" id="<?php echo $row['zhstore_id'];?>" class="edit tooltip-info" data-rel="tooltip" title="<?php echo yii::t('app', '编辑');?>">
                                                             <span class="green">
                                                                 <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                             </span>
@@ -91,7 +89,7 @@
                                                     
                                                     <?php if($can['delete']):?>
                                                     <li>
-                                                        <a href="#" class="tooltip-info delete" id="<?php echo $row['store_id'];?>" data-rel="tooltip" title="<?php echo yii::t('app', '删除');?>">
+                                                        <a href="#" class="tooltip-info delete" id="<?php echo $row['zhstore_id'];?>" data-rel="tooltip" title="<?php echo yii::t('app', '删除');?>">
                                                             <span class="red">
                                                                 <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                             </span>
@@ -110,7 +108,7 @@
                         
                         <div class="center">
                             <?php if($can['add']):?>
-                            <a href="<?php echo Url::to('/admin/store/storeadd');?>" class="btn btn-xs">
+                            <a href="<?php echo Url::to('/admin/store/zhstoreadd');?>" class="btn btn-xs">
                                 <i class="icon-pencil align-top bigger-125"></i>
                                 <span class="bigger-110 no-text-shadow"><?php echo yii::t('app', yii::t('app', '添加'))?></span>
                             </a>
@@ -151,7 +149,7 @@
 <!-- 编辑 -->
  <?php 
 	$form = ActiveForm::begin([
-		'action'=> Url::to('/admin/store/storeedit'),
+		'action'=> Url::to('/admin/store/zhstoreedit'),
 		'method'=>'post',
 		'enableClientValidation'=>false,
 		'enableClientScript'=>false,
@@ -208,7 +206,7 @@ jQuery(function($) {
 	                "class" : "btn btn-danger btn-xs ",
 	                "id" : "danger",
 	                click: function() {
-	                    location.href="<?php echo Url::to("/admin/store/storedelete");?>"+"?id="+$a;
+	                    location.href="<?php echo Url::to("/admin/store/zhstoredelete");?>"+"?id="+$a;
 	                    $( this ).dialog( "close" );
 	                }
 	            }

@@ -11,6 +11,9 @@ return [
 		'recharge'=>10,
 		'store'=>10,
 		'rechargelog'=>10,
+		'zhstore'=>10,
+		'news'=>10,
+		'deliverylog'=>10,
 	],	
 	
 	//管理員的權限id
@@ -39,12 +42,29 @@ return [
 		'edit'=>'17',
 	],
 	
-	//门店
+	//澳门取货地址
 	's_store' => [
 		'add'=>'28',
 		'edit'=>'29',
 		'delete'=>'30',
 	],		
+		
+	//珠海收货地址
+	's_zhstore' => [
+		'add' =>'32',
+		'edit'=>'33',
+		'delete'=>'34',
+	],
+		
+		
+	//公告讯息
+	's_news' => [
+		'add' =>'36',
+		'edit'=>'37',
+		'delete'=>'38',
+	],
+		
+		
 		
 		
 	'img_url_prefix' =>'../upload/',	//上传路径

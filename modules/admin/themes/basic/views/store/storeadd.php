@@ -7,21 +7,21 @@
     ThemeAsset::register($this);
     ThemeAssetExtra::register($this);
     $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';   
-    $this->title = Yii::t("app", "门店信息");
+    $this->title = Yii::t("app", "货物管理");
     
 ?>
 
 	<div class="page-content">
         <div class="page-header">
             <h1>
-                <?php echo yii::t('app', '门店管理')?>
+                <?php echo yii::t('app', '货物管理')?>
                 <small style="cursor:pointer">
                         <i class="ace-icon fa fa-angle-double-right"></i>
-                        <a href="<?php echo Url::to("/admin/store/store")?>"><?php echo yii::t('app', '门店信息')?></a>
+                        <a href="<?php echo Url::to("/admin/store/store")?>"><?php echo yii::t('app', '澳门取货地址')?></a>
                 </small>
                 <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
-                        <?php echo yii::t('app', '添加门店')?>
+                        <?php echo yii::t('app', '添加取货地址')?>
                 </small>
             </h1>
         </div><!-- /.page-header -->

@@ -6,7 +6,7 @@ use app\modules\admin\themes\basic\assets\ThemeAssetExtra;
 ThemeAsset::register($this);
 ThemeAssetExtra::register($this);
 $baseUrl = $this->assetBundles[ThemeAsset::className()]->baseUrl . '/';
-$this->title = Yii::t("app", "珠海扫描流水");
+$this->title = Yii::t("app", "珠海扫件流水");
 
 ?>
 
@@ -18,10 +18,13 @@ $this->title = Yii::t("app", "珠海扫描流水");
 			<?php echo yii::t('app', '流水管理')?>
 			<small>
 				<i class="ace-icon fa fa-angle-double-right"></i>
-				<?php echo yii::t('app', '扫描流水')?>
+				<?php echo yii::t('app', '珠海扫件流水')?>
 			</small>
 		</h1>
 	</div><!-- /.page-header -->
+	
+	
+	
 	<div class="row">
 		<div class="col-xs-12"><!-- PAGE CONTENT BEGINS -->
 			<div class="row">
@@ -50,21 +53,17 @@ $this->title = Yii::t("app", "珠海扫描流水");
 								<tr>
 									<th style="width: 5%"><?php echo yii::t('app', '序号')?></th>
 									<th><?php echo yii::t('app', '管理员')?></th>
-									<th><?php echo yii::t('app', '用户姓名')?></th>
 									<th><?php echo yii::t('app', '用户手机')?></th>
-									<th><?php echo yii::t('app', '充值额度')?></th>
-									<th><?php echo yii::t('app', '充值时间')?></th>
+									<th><?php echo yii::t('app', '货物条形码')?></th>
 								</tr>
 							</thead>
                             <tbody>
-							<?php foreach ($rechargelog as $key => $row):?>
+							<?php foreach ($zhlog as $key => $row):?>
                                 <tr>
                                 	<td><?php echo ++$key?></td>
                                 	<td><?php echo $row['admin_name']?></td>
-                                	<td><?php echo $row['user_name']?></td>
                                 	<td><?php echo $row['user_phone']?></td>
-                                	<td><?php echo $row['money']?></td>
-                                	<td><?php echo $row['recharge_time']?></td>
+                                	<td><?php echo $row['bar_code']?></td>
                                 </tr>
 							<?php endforeach;?>
                             </tbody>
@@ -98,11 +97,6 @@ jQuery(function($) {
     	var path = $(this).val();
 		window.location.href=path;
 	});
-
-
-
-
-
 
 	
 });

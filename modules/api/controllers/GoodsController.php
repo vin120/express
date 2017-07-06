@@ -6,6 +6,7 @@ use Yii;
 use app\modules\api\controllers\BaseController;
 use app\modules\api\models\Goods;
 use app\modules\api\models\Admin;
+use app\modules\api\components\Components;
 
 class GoodsController extends BaseController
 {
@@ -76,6 +77,7 @@ class GoodsController extends BaseController
 			$goods->width = $width;
 			$goods->height = $height;
 			$goods->weight = $weight;
+			$goods->price = Components::getPrice($length, $width, $height, $weight);
 			$goods->update_time = date("Y-m-d H:i:s",time());
 			$goods->status = 0;
 			$goods->save();

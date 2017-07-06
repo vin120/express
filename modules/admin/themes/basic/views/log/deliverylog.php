@@ -54,6 +54,7 @@ $this->title = Yii::t("app", "派件流水");
 									<th><?php echo yii::t('app', '卸货区域')?></th>
 									<th><?php echo yii::t('app', '支付方式')?></th>
 									<th><?php echo yii::t('app', '支付金额')?></th>
+									<th><?php echo yii::t('app', '派件时间')?></th>
 								</tr>
 							</thead>
                             <tbody>
@@ -66,6 +67,7 @@ $this->title = Yii::t("app", "派件流水");
                                 	<td><?php echo $row['area']?></td>
                                 	<td><?php if($row['pay_way'] == 1) echo Yii::t('app','现金'); else echo Yii::t('app','线上');?></td>
                                 	<td><?php echo $row['price']?></td>
+                                	<td><?php echo $row['update_time']?></td>
                                 </tr>
 							<?php endforeach;?>
                             </tbody>

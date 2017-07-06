@@ -344,8 +344,8 @@
 		<div class="footer-inner">
 			<div class="footer-content">
 				<span class="bigger-120">
-					<span class="blue bolder">www.timestorm.cn</span>
-					 &copy; 2016-2017
+					<span class="blue bolder">www.macaoyi.com</span>
+					 &copy; 2016-2018
 				</span>
 			</div>
 		</div>

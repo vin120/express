@@ -7,6 +7,7 @@ use app\modules\api\controllers\BaseController;
 use app\modules\api\models\Goods;
 use app\modules\api\models\Admin;
 use app\modules\api\components\Components;
+use app\modules\api\components\Push;
 
 class GoodsController extends BaseController
 {
@@ -141,6 +142,11 @@ class GoodsController extends BaseController
 			
 			
 			Goods::updateAll(['area'=>$area,'mo_admin_name'=>$admin->admin_name,'update_time'=>date("Y-m-d H:i:s",time()),'status'=>1],'bar_code = :bar_code',[':bar_code'=>$bar_code]);
+			
+			$alias = $goods['user_phone'];
+			//推送给用户，货物到达澳门
+			Push::push($alias);
+			
 			
 			$response = ['code'=> 0, 'msg'=>'success'];
 			

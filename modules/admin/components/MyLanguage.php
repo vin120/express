@@ -26,7 +26,7 @@ class MyLanguage
 			]));
 			
 		} else if(isset($cookies['mylanguage'])){
-			YIi::$app->language = $cookies['mylanguage']->value;
+			Yii::$app->language = $cookies['mylanguage']->value;
 		} else {
 			Yii::$app->language = Yii::$app->request->headers['accept-language'];
 		}

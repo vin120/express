@@ -26,9 +26,9 @@
 									<div class="widget-body">
 										<div class="widget-main">
 											<div class="lang" style="display: block; height: 100%; line-height: 100%; float: right">
-												<a href="<?= Url::toRoute(['login/login','language'=>'en-US'])?>">En</a>
+												<a href="<?= Url::toRoute(['login/login','language'=>'en-us'])?>">En</a>
 												<label>&nbsp;|&nbsp;</label>
-												<a href="<?= Url::toRoute(['login/login','language'=>'zh-CN'])?>">中文</a>
+												<a href="<?= Url::toRoute(['login/login','language'=>'zh-cn'])?>">中文</a>
 											</div>
 										
 											<h4 class="header blue lighter bigger" style="margin-top: 9%">
